@@ -1,0 +1,105 @@
+table Vendas
+	lineageTag: 5d91b6b0-2271-442d-8de3-ac9896ca2e63
+
+	column 'ID Pedido'
+		dataType: string
+		lineageTag: 60beeac4-0055-48ad-960b-37866fb09c52
+		summarizeBy: none
+		sourceColumn: ID Pedido
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Pedido'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 146b90ef-617a-4bc7-a795-818d5574b7e1
+		summarizeBy: none
+		sourceColumn: Data Pedido
+
+		variation Variation
+			isDefault
+			relationship: 71055acf-7eea-453a-b32a-ff6bc5ae0e65
+			defaultHierarchy: LocalDateTable_b70e74a8-e4ab-4ac8-8890-cbf53d4eb972.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Código Loja'
+		dataType: string
+		lineageTag: 6d6a7488-a53d-407b-a5ce-2bfee7984223
+		summarizeBy: none
+		sourceColumn: Código Loja
+
+		annotation SummarizationSetBy = Automatic
+
+	column Produto
+		dataType: string
+		lineageTag: 7d274889-4c49-4e82-b4ad-10ef0f6945f9
+		summarizeBy: none
+		sourceColumn: Produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quantidade
+		dataType: int64
+		formatString: 0
+		lineageTag: ba4a87a0-2b30-4939-9262-4e8fe42e66fe
+		summarizeBy: sum
+		sourceColumn: Quantidade
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Preço Unitário'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: a649be04-2186-4671-b5d5-3e57df771e23
+		summarizeBy: sum
+		sourceColumn: Preço Unitário
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column Pagamento
+		dataType: string
+		lineageTag: 4de76f50-4690-4bec-8b6e-92ebae8bb727
+		summarizeBy: none
+		sourceColumn: Pagamento
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor Venda'
+		dataType: decimal
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: ece7d19a-945f-4720-a382-3ec26617b1cd
+		summarizeBy: sum
+		sourceColumn: Valor Venda
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	partition Vendas = m
+		mode: import
+		source =
+				let
+				    Fonte = Excel.Workbook(File.Contents("C:\Users\Roberto\Downloads\bd_vendas.xlsx"), null, true),
+				    registroVendas_Sheet = Fonte{[Item="registroVendas",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(registroVendas_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"ID Pedido", type text}, {"Data Pedido", type date}, {"Código Loja", type text}, {"Produto", type text}, {"Qtde/Preco Unit", type text}, {"Pagamento", type text}}),
+				    #"Valor Substituído" = Table.ReplaceValue(#"Tipo Alterado","Malaa","Mala",Replacer.ReplaceText,{"Produto"}),
+				    #"Colocar Cada Palavra Em Maiúscula" = Table.TransformColumns(#"Valor Substituído",{{"Produto", Text.Proper, type text}}),
+				    #"Dividir Coluna por Delimitador" = Table.SplitColumn(#"Colocar Cada Palavra Em Maiúscula", "Qtde/Preco Unit", Splitter.SplitTextByDelimiter("/", QuoteStyle.Csv), {"Qtde/Preco Unit.1", "Qtde/Preco Unit.2"}),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Dividir Coluna por Delimitador",{{"Qtde/Preco Unit.1", Int64.Type}, {"Qtde/Preco Unit.2", type number}}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Tipo Alterado1",{{"Qtde/Preco Unit.1", "Quantidade"}, {"Qtde/Preco Unit.2", "Preço Unitário"}}),
+				    #"Tipo Alterado2" = Table.TransformColumnTypes(#"Colunas Renomeadas",{{"Preço Unitário", Currency.Type}}),
+				    #"Multiplicação Inserida" = Table.AddColumn(#"Tipo Alterado2", "Multiplicação", each [Quantidade] * [Preço Unitário], Currency.Type),
+				    #"Colunas Renomeadas1" = Table.RenameColumns(#"Multiplicação Inserida",{{"Multiplicação", "Valor Venda"}})
+				in
+				    #"Colunas Renomeadas1"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

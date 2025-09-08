@@ -1,0 +1,51 @@
+table lojas
+	lineageTag: 6cb302b4-4d18-476e-9d28-06b878da93be
+
+	column codigo_loja
+		dataType: string
+		lineageTag: ef840f2b-28cb-49a1-bd30-b571a86f74f2
+		summarizeBy: none
+		sourceColumn: codigo_loja
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome_loja
+		dataType: string
+		lineageTag: 968c0604-1bf1-4722-8496-9db1690bdc00
+		summarizeBy: none
+		sourceColumn: nome_loja
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cidade
+		dataType: string
+		lineageTag: 3b441d59-b6dd-4e42-ba7a-1d0029d1253e
+		summarizeBy: none
+		sourceColumn: Cidade
+
+		annotation SummarizationSetBy = Automatic
+
+	column UF
+		dataType: string
+		lineageTag: 97ee5ef1-bd5b-4e5f-a0c6-7d04a1f5ca76
+		summarizeBy: none
+		sourceColumn: UF
+
+		annotation SummarizationSetBy = Automatic
+
+	partition lojas = m
+		mode: import
+		source =
+				let
+				    Fonte = Excel.Workbook(File.Contents("C:\Users\Roberto\Downloads\bd_vendas.xlsx"), null, true),
+				    lojas_Sheet = Fonte{[Item="lojas",Kind="Sheet"]}[Data],
+				    #"Tipo Alterado" = Table.TransformColumnTypes(lojas_Sheet,{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}, {"Column4", type text}}),
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(#"Tipo Alterado", [PromoteAllScalars=true]),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"codigo_loja", type text}, {"nome_loja", type text}, {"Cidade", type text}, {"UF", type text}})
+				in
+				    #"Tipo Alterado1"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+
