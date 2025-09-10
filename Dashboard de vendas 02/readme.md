@@ -5,7 +5,7 @@ O objetivo foi criar uma ferramenta interativa que facilite a visualização dos
 
 ## 🔗 Visualização Online  
 Acesse a versão interativa diretamente pelo Power BI Service:  
-👉 [Clique aqui para visualizar a dashboard](COLOQUE_AQUI_SEU_LINK)  
+👉 [Clique aqui para visualizar a dashboard](https://app.powerbi.com/view?r=eyJrIjoiYzY0NDkzZDItYzE5OC00YmUxLTgyZTktYzViNmQwNThkMzAxIiwidCI6IjMwNGZjMDY5LWM5MTMtNDg0OS04YWFiLTU1ZDEzNmI4MmU2NSJ9)  
 
 ## 🖼️ Prints da Dashboard  
 (Adicione algumas imagens da dashboard aqui usando o `![]()` do Markdown)  
