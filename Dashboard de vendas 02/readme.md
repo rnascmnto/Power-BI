@@ -7,10 +7,8 @@ O objetivo foi criar uma ferramenta interativa que facilite a visualização dos
 Acesse a versão interativa diretamente pelo Power BI Service:  
 👉 [Clique aqui para visualizar a dashboard](https://app.powerbi.com/view?r=eyJrIjoiYzY0NDkzZDItYzE5OC00YmUxLTgyZTktYzViNmQwNThkMzAxIiwidCI6IjMwNGZjMDY5LWM5MTMtNDg0OS04YWFiLTU1ZDEzNmI4MmU2NSJ9)  
 
-## 🖼️ Prints da Dashboard  
-(Adicione algumas imagens da dashboard aqui usando o `![]()` do Markdown)  
+## 🖼️ Visão da Dashboard
 
-Exemplo:  
 ![](imagens/dashboard-vendas-02.png)  
 
 ## 📂 Estrutura do Projeto  
@@ -26,4 +24,4 @@ O repositório contém:
 3. Abra o arquivo `.pbix` no **Power BI Desktop**  
 4. Explore, modifique e teste os relatórios livremente  
 
----
+
