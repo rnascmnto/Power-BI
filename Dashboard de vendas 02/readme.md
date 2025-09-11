@@ -11,8 +11,7 @@ Acesse a versão interativa diretamente pelo Power BI Service:
 (Adicione algumas imagens da dashboard aqui usando o `![]()` do Markdown)  
 
 Exemplo:  
-![](IMAGEM_1.png)  
-![](IMAGEM_2.png)  
+![](imagens/dashboard-vendas-02.png)  
 
 ## 📂 Estrutura do Projeto  
 O repositório contém:  
@@ -20,7 +19,6 @@ O repositório contém:
 - `dashboard_vendas.zip` → Arquivo compactado com todos os recursos do projeto, incluindo:  
   - Arquivo `.pbix` do Power BI (modelo e relatórios)  
   - Base de dados utilizada  
-  - Material de apoio  
 
 ## 🧪 Como Testar Localmente  
 1. Baixe o arquivo `dashboard_vendas.zip`  
