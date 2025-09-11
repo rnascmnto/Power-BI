@@ -28,5 +28,3 @@ O repositório contém:
 2.  Certifique-se de ter o **Power BI Desktop** instalado.
 3.  Abra o arquivo `.pbix` no Power BI Desktop.
 4.  Explore o modelo, o tratamento de dados no Power Query e os gráficos interativos.
-
------
